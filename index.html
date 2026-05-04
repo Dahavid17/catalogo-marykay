@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowCatalog | Catalogo de maquiagem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="topbar">
+      <a class="brand" href="index.html">GlowCatalog</a>
+      <div class="nav-links">
+        <a href="#produtos">Produtos</a>
+        <a href="admin.html">Area da revendedora</a>
+      </div>
+    </nav>
+
+    <section class="hero-content">
+      <div>
+        <p class="eyebrow">Catalogo vivo de maquiagem</p>
+        <h1>Produtos bonitos, estoque claro e compra direto pelo WhatsApp.</h1>
+        <p class="hero-copy">Uma vitrine simples para clientes encontrarem o produto ideal e falarem rapidamente com a revendedora.</p>
+        <a class="button" href="#produtos">Ver produtos</a>
+      </div>
+      <aside class="hero-card">
+        <span>Estoque atualizado</span>
+        <strong>Sem perguntar item por item</strong>
+        <p>O cliente visualiza disponibilidade antes de chamar no WhatsApp.</p>
+      </aside>
+    </section>
+  </header>
+
+  <main>
+    <section class="catalog-section" id="produtos">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Vitrine</p>
+          <h2>Catalogo de produtos</h2>
+        </div>
+        <span class="count" data-product-count>0 produtos</span>
+      </div>
+
+      <div class="filters" aria-label="Filtros do catalogo">
+        <input type="search" placeholder="Buscar por produto, marca ou categoria" data-search>
+        <select data-category aria-label="Filtrar por categoria"></select>
+        <select data-stock-filter aria-label="Filtrar por estoque">
+          <option value="all">Todos os produtos</option>
+          <option value="available">Somente disponiveis</option>
+        </select>
+      </div>
+
+      <div class="products-grid" data-products></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Projeto MVP para catalogo de revendedora de maquiagem.</p>
+  </footer>
+
+  <script src="scripts/store.js"></script>
+  <script src="scripts/catalog.js"></script>
+</body>
+</html>
