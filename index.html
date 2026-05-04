@@ -3,63 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GlowCatalog | Catalogo de maquiagem</title>
+  <title>Catálogo Mary Kay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <header class="hero">
     <nav class="topbar">
-      <a class="brand" href="index.html">GlowCatalog</a>
-      <div class="nav-links">
-        <a href="#produtos">Produtos</a>
-        <a href="admin.html">Area da revendedora</a>
-      </div>
+      <a class="brand" href="index.html">Mary Kay da Consultora</a>
+      <a class="admin-link" href="admin.html">Área da revendedora</a>
     </nav>
 
-    <section class="hero-content">
-      <div>
-        <p class="eyebrow">Catalogo vivo de maquiagem</p>
-        <h1>Produtos bonitos, estoque claro e compra direto pelo WhatsApp.</h1>
-        <p class="hero-copy">Uma vitrine simples para clientes encontrarem o produto ideal e falarem rapidamente com a revendedora.</p>
-        <a class="button" href="#produtos">Ver produtos</a>
+    <section class="consultant-banner">
+      <div class="consultant-photo">
+        <img src="assets/consultora.jpg" alt="Foto da consultora Mary Kay" onerror="this.style.display='none'">
+        <span>Foto da consultora</span>
       </div>
-      <aside class="hero-card">
-        <span>Estoque atualizado</span>
-        <strong>Sem perguntar item por item</strong>
-        <p>O cliente visualiza disponibilidade antes de chamar no WhatsApp.</p>
-      </aside>
+      <div>
+        <p class="eyebrow">Pedido fácil Mary Kay</p>
+        <h1>Escolha seus produtos e veja o total na hora.</h1>
+        <p>Toque no <strong>+</strong> para colocar no carrinho. Quando terminar, envie o pedido pronto pelo WhatsApp.</p>
+      </div>
     </section>
   </header>
 
-  <main>
-    <section class="catalog-section" id="produtos">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Vitrine</p>
-          <h2>Catalogo de produtos</h2>
-        </div>
-        <span class="count" data-product-count>0 produtos</span>
+  <main class="shop-layout">
+    <section class="shop-main" aria-label="Produtos">
+      <div class="easy-search">
+        <label for="search">O que você procura?</label>
+        <input id="search" type="search" placeholder="Ex: base, batom, máscara" data-search>
       </div>
-
-      <div class="filters" aria-label="Filtros do catalogo">
-        <input type="search" placeholder="Buscar por produto, marca ou categoria" data-search>
-        <select data-category aria-label="Filtrar por categoria"></select>
-        <select data-stock-filter aria-label="Filtrar por estoque">
-          <option value="all">Todos os produtos</option>
-          <option value="available">Somente disponiveis</option>
-        </select>
-      </div>
-
-      <div class="products-grid" data-products></div>
+      <div class="category-strip" data-categories aria-label="Categorias"></div>
+      <div class="shop-grid" data-products></div>
     </section>
+
+    <aside class="cart-panel" aria-label="Carrinho">
+      <div class="cart-card">
+        <div class="cart-heading">
+          <div>
+            <p class="eyebrow">Meu carrinho</p>
+            <h2>Pedido</h2>
+          </div>
+          <span data-cart-count>0 itens</span>
+        </div>
+        <div class="cart-list" data-cart-list></div>
+      </div>
+    </aside>
   </main>
 
-  <footer>
-    <p>Projeto MVP para catalogo de revendedora de maquiagem.</p>
-  </footer>
+  <section class="checkout-bar" aria-label="Resumo do carrinho">
+    <div class="checkout-total">
+      <span>Total</span>
+      <strong data-cart-total>R$ 0,00</strong>
+    </div>
+    <div class="checkout-actions">
+      <a class="button whatsapp-button disabled" href="#" target="_blank" rel="noreferrer" data-whatsapp-cart>Finalizar pedido</a>
+      <button class="button ghost clear-button" type="button" data-clear-cart disabled>Limpar</button>
+    </div>
+  </section>
 
   <script src="scripts/store.js"></script>
   <script src="scripts/catalog.js"></script>

@@ -3,58 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel da Revendedora | GlowCatalog</title>
+  <title>Painel da Revendedora | Mary Kay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body class="admin-body">
   <nav class="topbar compact">
-    <a class="brand" href="index.html">GlowCatalog</a>
-    <div class="nav-links">
-      <a href="index.html">Ver catalogo</a>
-    </div>
+    <a class="brand" href="index.html">Mary Kay da Consultora</a>
+    <div class="nav-links"><a href="index.html">Ver catálogo</a></div>
   </nav>
 
-  <main class="admin-layout">
+  <section class="login-screen" data-login-screen>
+    <form class="login-card" data-login-form>
+      <p class="eyebrow">Área protegida</p>
+      <h1>Entrar no painel</h1>
+      <p>Digite a senha da revendedora para alterar produtos e estoque.</p>
+      <label>Senha<input type="password" data-admin-password placeholder="Digite a senha" autocomplete="current-password"></label>
+      <button class="button" type="submit">Entrar</button>
+      <p class="login-error" data-login-error aria-live="polite"></p>
+    </form>
+  </section>
+
+  <main class="admin-layout is-locked" data-admin-content>
     <section class="panel intro-panel">
       <p class="eyebrow">Painel da revendedora</p>
-      <h1>Controle o estoque em poucos cliques.</h1>
+      <h1>Controle o catálogo em poucos cliques.</h1>
       <p>Adicione produtos, ajuste quantidades, remova itens e use CSV para trabalhar com Excel quando precisar.</p>
       <div class="summary" data-admin-summary></div>
     </section>
 
     <section class="panel">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Novo produto</p>
-          <h2>Cadastrar item</h2>
-        </div>
-      </div>
-
+      <div class="section-heading"><div><p class="eyebrow">Novo produto</p><h2>Cadastrar item</h2></div></div>
       <form class="product-form" data-product-form>
-        <label>Nome do produto<input name="name" required placeholder="Ex: Batom Nude Velvet"></label>
-        <label>Marca<input name="brand" required placeholder="Ex: Belleza Glow"></label>
-        <label>Categoria<input name="category" required placeholder="Ex: Batom"></label>
-        <label>Preco<input name="price" type="number" min="0" step="0.01" required placeholder="39.90"></label>
-        <label>Estoque<input name="stock" type="number" min="0" required placeholder="10"></label>
+        <label>Nome do produto<input name="name" required placeholder="Ex: Batom Matte"></label>
+        <label>Marca<input name="brand" required value="Mary Kay"></label>
+        <label>Categoria<input name="category" required placeholder="Ex: Maquiagem - Lábios"></label>
+        <label>Preço<input name="price" type="number" min="0" step="0.01" required placeholder="39.90"></label>
+        <label>Estoque<input name="stock" type="number" min="0" required value="10"></label>
+        <label>Etiqueta<input name="tag" placeholder="Ex: Promoção"></label>
         <label class="full-width">Imagem URL<input name="image" placeholder="https://..."></label>
-        <label class="full-width">Descricao<textarea name="description" rows="3" placeholder="Detalhes importantes do produto"></textarea></label>
+        <label class="full-width">Descrição<textarea name="description" rows="3" placeholder="Detalhes importantes do produto"></textarea></label>
         <button class="button" type="submit">Adicionar produto</button>
       </form>
     </section>
 
     <section class="panel full-width-panel">
       <div class="section-heading">
-        <div>
-          <p class="eyebrow">Estoque</p>
-          <h2>Produtos cadastrados</h2>
-        </div>
+        <div><p class="eyebrow">Estoque</p><h2>Produtos cadastrados</h2></div>
         <div class="toolbar">
           <button class="button secondary" type="button" data-export>Exportar CSV</button>
           <label class="button secondary file-button">Importar CSV<input type="file" accept=".csv" data-import></label>
-          <button class="button ghost" type="button" data-reset>Restaurar exemplo</button>
+          <button class="button ghost" type="button" data-reset>Restaurar catálogo</button>
         </div>
       </div>
       <div class="table-wrap" data-admin-table></div>

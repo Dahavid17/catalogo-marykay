@@ -1,5 +1,5 @@
-﻿const STORAGE_KEY = "makeup_catalog_products";
-const CLIENT_PHONE = "5511999999999";
+﻿const STORAGE_KEY = "makeup_catalog_products_v4";
+const CLIENT_PHONE = "5535999999999";
 
 function normalizeProduct(product) {
   const fallbackId = `${product.name || "produto"}-${Date.now()}`
@@ -12,21 +12,19 @@ function normalizeProduct(product) {
   return {
     id: product.id || fallbackId,
     name: product.name?.trim() || "Produto sem nome",
-    brand: product.brand?.trim() || "Marca nao informada",
+    brand: product.brand?.trim() || "Mary Kay",
     category: product.category?.trim() || "Outros",
     price: Number(product.price || 0),
     stock: Math.max(0, Number.parseInt(product.stock || 0, 10)),
     image: product.image?.trim() || "",
-    description: product.description?.trim() || "Sem descricao cadastrada."
+    description: product.description?.trim() || "Produto do catálogo Mary Kay.",
+    tag: product.tag?.trim() || ""
   };
 }
 
 async function loadProducts() {
   const storedProducts = localStorage.getItem(STORAGE_KEY);
-
-  if (storedProducts) {
-    return JSON.parse(storedProducts).map(normalizeProduct);
-  }
+  if (storedProducts) return JSON.parse(storedProducts).map(normalizeProduct);
 
   const response = await fetch("data/products.json");
   const products = await response.json();
@@ -41,27 +39,22 @@ function saveProducts(products) {
 }
 
 function formatCurrency(value) {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  }).format(value);
+  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
 }
 
-function buildWhatsAppLink(product) {
-  const text = `Ola! Tenho interesse no produto ${product.name}. Ainda tem disponivel?`;
+function buildCartWhatsAppLink(cartItems, total) {
+  const lines = cartItems.map(({ product, quantity, subtotal }) => `- ${quantity}x ${product.name} = ${formatCurrency(subtotal)}`);
+  const text = ["Olá! Gostaria de pedir estes produtos:", "", ...lines, "", `Total: ${formatCurrency(total)}`].join("\n");
   return `https://wa.me/${CLIENT_PHONE}?text=${encodeURIComponent(text)}`;
 }
 
 function csvEscape(value) {
   const stringValue = String(value ?? "");
-  if (/[,"\n]/.test(stringValue)) {
-    return `"${stringValue.replaceAll('"', '""')}"`;
-  }
-  return stringValue;
+  return /[,"\n]/.test(stringValue) ? `"${stringValue.replaceAll('"', '""')}"` : stringValue;
 }
 
 function productsToCsv(products) {
-  const headers = ["id", "name", "brand", "category", "price", "stock", "image", "description"];
+  const headers = ["id", "name", "brand", "category", "price", "stock", "image", "description", "tag"];
   const rows = products.map((product) => headers.map((header) => csvEscape(product[header])).join(","));
   return [headers.join(","), ...rows].join("\n");
 }
@@ -75,39 +68,26 @@ function parseCsv(csvText) {
   for (let index = 0; index < csvText.length; index += 1) {
     const char = csvText[index];
     const nextChar = csvText[index + 1];
-
     if (char === '"' && insideQuotes && nextChar === '"') {
-      current += '"';
-      index += 1;
+      current += '"'; index += 1;
     } else if (char === '"') {
       insideQuotes = !insideQuotes;
     } else if (char === "," && !insideQuotes) {
-      row.push(current);
-      current = "";
+      row.push(current); current = "";
     } else if ((char === "\n" || char === "\r") && !insideQuotes) {
       if (char === "\r" && nextChar === "\n") index += 1;
-      row.push(current);
-      rows.push(row);
-      row = [];
-      current = "";
+      row.push(current); rows.push(row); row = []; current = "";
     } else {
       current += char;
     }
   }
 
-  if (current || row.length) {
-    row.push(current);
-    rows.push(row);
-  }
-
+  if (current || row.length) { row.push(current); rows.push(row); }
   const [headers, ...values] = rows.filter((line) => line.some(Boolean));
   if (!headers) return [];
-
   return values.map((line) => {
     const product = {};
-    headers.forEach((header, index) => {
-      product[header.trim()] = line[index];
-    });
+    headers.forEach((header, index) => { product[header.trim()] = line[index]; });
     return normalizeProduct(product);
   });
 }
