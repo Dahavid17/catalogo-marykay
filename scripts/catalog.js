@@ -52,13 +52,16 @@ function renderProducts() {
           <p class="eyebrow">${product.category}</p>
           <h3>${product.name}</h3>
           <p>${product.description}</p>
-          <strong class="price">${formatCurrency(product.price)}</strong>
-          <div class="big-actions">
-            <button type="button" data-action="decrease" data-id="${product.id}">-</button>
-            <span>${quantity}</span>
-            <button type="button" data-action="increase" data-id="${product.id}">+</button>
+          <div class="product-meta">
+            <strong class="price">${formatCurrency(product.price)}</strong>
+            <span class="stock-badge">${product.stock > 0 ? `${product.stock} em estoque` : "Consulte disponibilidade"}</span>
           </div>
-          <button class="button add-button" type="button" data-action="increase" data-id="${product.id}">Colocar no carrinho</button>
+          <div class="big-actions">
+            <button type="button" aria-label="Diminuir ${product.name}" data-action="decrease" data-id="${product.id}" ${quantity === 0 ? "disabled" : ""}>-</button>
+            <span>${quantity}</span>
+            <button type="button" aria-label="Adicionar ${product.name}" data-action="increase" data-id="${product.id}" ${product.stock <= 0 || quantity >= product.stock ? "disabled" : ""}>+</button>
+          </div>
+          <button class="button add-button" type="button" data-action="increase" data-id="${product.id}" ${product.stock <= 0 || quantity >= product.stock ? "disabled" : ""}>Adicionar ao pedido</button>
         </div>
       </article>`;
   }).join("");
@@ -80,7 +83,10 @@ function renderCart() {
 }
 
 function updateCart(productId, amount) {
-  cart[productId] = Math.max(0, (cart[productId] || 0) + amount);
+  const product = products.find((item) => item.id === productId);
+  if (!product || (amount > 0 && product.stock <= 0)) return;
+  const nextQuantity = Math.max(0, (cart[productId] || 0) + amount);
+  cart[productId] = Math.min(nextQuantity, product.stock);
   if (cart[productId] === 0) delete cart[productId];
   renderProducts(); renderCart();
 }
